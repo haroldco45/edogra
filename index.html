@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDOGRA - Pedidos Completos</title>
+    <title>EDOGRA - Sistema de Pedidos</title>
     <style>
         :root { --azul: #007bff; --verde: #25d366; --gris: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; padding: 10px; }
@@ -13,7 +13,7 @@
         h2 { color: var(--azul); margin: 5px 0; font-size: 1.4em; }
         input { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
         #search { background: #fffde7; border: 2px solid var(--azul); font-weight: bold; position: sticky; top: 0; z-index: 10; }
-        .lista { max-height: 450px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-top: 10px; border-radius: 8px; }
+        .lista { max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-top: 10px; border-radius: 8px; }
         .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; }
         .item-info { flex: 1; font-size: 0.85em; color: #333; }
         .item-info b { display: block; font-size: 1.05em; color: #000; }
@@ -36,6 +36,7 @@
     <input type="text" id="cliente" placeholder="Nombre del Cliente">
     <input type="text" id="tienda" placeholder="Nombre de la Tienda">
     <input type="text" id="dir" placeholder="Dirección completa y Ciudad">
+    <input type="tel" id="telCliente" placeholder="Celular del Cliente">
     <input type="text" id="vend" placeholder="Nombre del Vendedor">
 
     <input type="text" id="search" placeholder="🔍 BUSCAR PRODUCTO..." onkeyup="filtrar()">
@@ -57,7 +58,6 @@
 
 <script>
     const PRODUCTOS = [
-        // GRUPO 0401 - DETERGENTES
         { id: 1, n: "DETERGENTE 3D *125GR PC*96", p: 1335 },
         { id: 2, n: "DETERGENTE 3D *1KL PC*12", p: 7565 },
         { id: 3, n: "DETERGENTE 3D *250GR PC*24", p: 2580 },
@@ -65,7 +65,7 @@
         { id: 5, n: "DETERGENTE 3D *3KL PC*4", p: 22020 },
         { id: 6, n: "DETERGENTE 3D *500GR PC*22", p: 4005 },
         { id: 7, n: "DETERGENTE BARRA DERSA AS*250GR CJ*2", p: 65075 },
-        { id: 8, n: "DETERGENTE DERSA*125GR PC*96", p: 2 },
+        { id: 8, n: "DETERGENTE DERSA*125GR PC*96", p: 2000 },
         { id: 9, n: "DETERGENTE FAB*100GR PC*112", p: 1425 },
         { id: 10, n: "DETERGENTE FAB*225GR PC*54", p: 2910 },
         { id: 11, n: "DETERGENTE FAB*450GR PC*30", p: 5345 },
@@ -89,7 +89,6 @@
         { id: 29, n: "DETERGENTE ULTREX MANZ*3 KL PC*6", p: 15080 },
         { id: 30, n: "DETERGENTE ULTREX MANZ*500GR PC*40", p: 2800 },
         { id: 31, n: "DETERGENTE ULTREX MANZ*900GR PC*20", p: 4705 },
-        // GRUPO 0402 - LIMPIAPISOS-BLANQUEADORES
         { id: 32, n: "BLANQUEADOR NEW CLEANY*2000 CJ*6", p: 16895 },
         { id: 33, n: "BLANQUEADOR NEW CLEANY*3800 CJ*4", p: 23980 },
         { id: 34, n: "BLANQUEADOR NEW CLEANY*500 CJ*24", p: 23980 },
@@ -101,7 +100,6 @@
         { id: 40, n: "DESMANC ROPA BLANCA PAT*1000ML CJ*18", p: 6115 },
         { id: 41, n: "DESMANC ROPA COLOR PAT*1000ML CJ*18", p: 5445 },
         { id: 42, n: "DESMANC ROPA COLOR PAT*450ML CJ*24", p: 2655 },
-        // GRUPO 0403 - SUAVIZANTES
         { id: 43, n: "QUITA MANCHAS ULTREX*150ML CJ*12", p: 1360 },
         { id: 44, n: "QUITA MANCHAS ULTREX*450ML CJ*12", p: 3190 },
         { id: 45, n: "SUAVIZ AROMATEL*180ML CJ*36", p: 1605 },
@@ -121,7 +119,6 @@
         { id: 59, n: "SUAVIZ ULTREX*425ML DP CJ*12", p: 2240 },
         { id: 60, n: "SUAVIZ ULTREX*4LT CJ*4", p: 16790 },
         { id: 61, n: "SUAVIZ ULTREX*900ML DP CJ*12", p: 4480 },
-        // GRUPO 0404 - JABONES EN BARRA
         { id: 62, n: "JABON CAIMAN AZUL ENV *230GR CJ*25", p: 42225 },
         { id: 63, n: "JABON CAIMAN BLANCO ENV *230GR CJ*25", p: 46670 },
         { id: 64, n: "JABON CAIMAN EN CUERO*150GR CJ*25", p: 25555 },
@@ -132,7 +129,6 @@
         { id: 69, n: "JABON TOP TERRA *230GR CJ*25", p: 65325 },
         { id: 70, n: "LAVALOZA AXION BARRA*100GR CJ*84", p: 1180 },
         { id: 71, n: "LAVALOZA AXION BARRA*300GR CJ*54", p: 2255 },
-        // LISTA 01 - LAVALOZAS ADICIONALES
         { id: 72, n: "LAVALOZA AXION*150GR CJ*72", p: 2225 },
         { id: 73, n: "LAVALOZA AXION*235GR CJ*48", p: 3105 },
         { id: 74, n: "LAVALOZA AXION*450GR CJ*24", p: 6170 },
@@ -180,11 +176,12 @@
         const cli = document.getElementById('cliente').value;
         const tie = document.getElementById('tienda').value;
         const dir = document.getElementById('dir').value;
+        const tel = document.getElementById('telCliente').value;
         const ven = document.getElementById('vend').value;
 
-        if(!cli || !tie || !dir) return alert("Faltan datos del cliente");
+        if(!cli || !tie || !dir || !tel) return alert("Faltan datos obligatorios (Cliente, Tienda, Dirección, Celular)");
 
-        let msg = `*PEDIDO EDOGRA*\n*Cliente:* ${cli}\n*Tienda:* ${tie}\n*Dirección:* ${dir}\n*Vendedor:* ${ven}\n\n`;
+        let msg = `*PEDIDO EDOGRA*\n*Cliente:* ${cli}\n*Tienda:* ${tie}\n*Dirección:* ${dir}\n*Celular Cliente:* ${tel}\n*Vendedor:* ${ven}\n\n`;
         let subtotal = 0;
         PRODUCTOS.forEach(p => {
             const q = document.getElementById(`qty-${p.id}`).value;
@@ -197,6 +194,7 @@
         if(subtotal === 0) return alert("Pedido vacío");
 
         msg += `\n*TOTAL: $${subtotal.toLocaleString()}*\n\n_App por Vibras Positivas_`;
+        
         window.open(`https://wa.me/573178449331?text=${encodeURIComponent(msg)}`);
     }
 
@@ -205,6 +203,7 @@
             c: document.getElementById('cliente').value,
             t: document.getElementById('tienda').value,
             d: document.getElementById('dir').value,
+            tel: document.getElementById('telCliente').value,
             v: document.getElementById('vend').value,
             p: []
         };
@@ -222,6 +221,7 @@
             document.getElementById('cliente').value = saved.c || '';
             document.getElementById('tienda').value = saved.t || '';
             document.getElementById('dir').value = saved.d || '';
+            document.getElementById('telCliente').value = saved.tel || '';
             document.getElementById('vend').value = saved.v || '';
             saved.p.forEach(item => {
                 const el = document.getElementById(`qty-${item.id}`);
