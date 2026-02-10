@@ -10,13 +10,14 @@
             --azul-oscuro: #0056b3;
             --blanco: #ffffff;
             --gris-claro: #f4f7f6;
+            --verde-whatsapp: #25d366;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--gris-claro);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
@@ -30,168 +31,220 @@
 
         .header {
             text-align: center;
-            border-bottom: 3px solid var(--azul-edogra);
             margin-bottom: 20px;
-            padding-bottom: 10px;
         }
 
-        .header h1 { color: var(--azul-edogra); margin: 0; }
-        .datetime { font-size: 0.9em; color: #666; }
+        /* Estilo para tu logo del repositorio */
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
 
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        .header h1 { color: var(--azul-edogra); margin: 0; text-transform: uppercase; }
+        .datetime { font-size: 0.85em; color: #666; margin-top: 5px; }
+
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-weight: bold; margin-bottom: 3px; font-size: 0.9em; }
         
         input[type="text"], input[type="tel"], input[type="number"] {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 8px;
             box-sizing: border-box;
         }
 
-        .product-list { margin-top: 20px; }
+        /* Buscador de productos */
+        #searchBox {
+            background-color: #fffde7;
+            border: 2px solid var(--azul-edogra);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .product-list { 
+            margin-top: 10px; 
+            max-height: 400px; 
+            overflow-y: auto; 
+            border: 1px solid #eee;
+            padding: 5px;
+        }
+
         .product-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            padding: 12px 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .product-info { flex: 2; }
-        .product-price { color: var(--azul-oscuro); font-weight: bold; font-size: 0.9em; }
+        .product-info { flex: 2; padding-right: 10px; }
+        .product-name { font-weight: bold; font-size: 0.95em; display: block; }
+        .product-detail { font-size: 0.85em; color: #555; }
+        .product-price { color: var(--azul-oscuro); font-weight: bold; }
 
         .qty-input {
-            width: 80px !important;
+            width: 70px !important;
             text-align: center;
             border: 2px solid var(--azul-edogra) !important;
+            font-size: 1.1em;
         }
 
-        .totals-section {
+        .footer-sticky {
             position: sticky;
             bottom: 0;
-            background: var(--blanco);
+            background: white;
             padding: 15px;
-            border-top: 2px solid var(--azul-edogra);
-            margin-top: 20px;
-            text-align: right;
+            border-top: 3px solid var(--azul-edogra);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
-        .total-amount { font-size: 1.5em; color: var(--azul-edogra); font-weight: bold; }
+        .totals {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .total-amount { font-size: 1.4em; color: var(--azul-edogra); font-weight: bold; }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 8px;
+            font-size: 1em;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
+            margin-bottom: 8px;
         }
 
-        .btn-whatsapp { background-color: #25d366; color: white; }
-        .btn-backup { background-color: var(--azul-edogra); color: white; }
-        .btn-edit { background-color: #ffc107; color: black; font-size: 0.8em; padding: 5px; width: auto; }
+        .btn-whatsapp { background-color: var(--verde-whatsapp); color: white; }
+        .btn-backup { background-color: #6c757d; color: white; }
 
-        .btn:hover { opacity: 0.8; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>EDOGRA DISTRIBUCIONES</h1>
-        <p>Vibras Positivas para tu negocio</p>
+        <img src="logo.png" alt="Logo EDOGRA" class="logo">
+        <h1>EDOGRA</h1>
         <div class="datetime" id="currentDateTime"></div>
     </div>
 
-    <div id="clienteSection">
-        <div class="form-group">
-            <label>Nombre del Cliente</label>
-            <input type="text" id="nombreCliente" placeholder="Ej: Juan Pérez">
-        </div>
-        <div class="form-group">
-            <label>Nombre de la Tienda</label>
-            <input type="text" id="nombreTienda" placeholder="Ej: Supermercado El Éxito">
-        </div>
-        <div class="form-group">
-            <label>Dirección y Ciudad</label>
-            <input type="text" id="direccion" placeholder="Ej: Calle 10 #5-20, Caucasia">
-        </div>
-        <div class="form-group">
-            <label>Celular Cliente</label>
-            <input type="tel" id="celularCliente" placeholder="300...">
-        </div>
-        <div class="form-group">
-            <label>Vendedor</label>
-            <input type="text" id="vendedor" placeholder="Nombre del preventista">
-        </div>
+    <div class="form-group">
+        <label>Cliente / Tienda</label>
+        <input type="text" id="nombreCliente" placeholder="Nombre Cliente">
+        <input type="text" id="nombreTienda" placeholder="Nombre de la Tienda" style="margin-top:5px">
+    </div>
+    <div class="form-group">
+        <input type="text" id="direccion" placeholder="Dirección y Ciudad (Caucasia)">
+    </div>
+    <div class="form-group">
+        <input type="text" id="vendedor" placeholder="Vendedor que atiende">
     </div>
 
-    <div class="product-list">
-        <h3>Catálogo de Productos</h3>
-        <div id="productosContainer">
-            </div>
-    </div>
+    <hr>
 
-    <div class="totals-section">
-        <div>Subtotal: <span id="subtotalLabel">$0</span></div>
-        <div class="total-amount">TOTAL: <span id="totalLabel">$0</span></div>
+    <label>🔍 Buscar Producto:</label>
+    <input type="text" id="searchBox" placeholder="Escribe el nombre del producto..." onkeyup="filterProducts()">
+
+    <div class="product-list" id="productosContainer">
+        </div>
+
+    <div class="footer-sticky">
+        <div class="totals">
+            <span>SUBTOTAL: <span id="subtotalLabel">$0</span></span>
+            <span class="total-amount" id="totalLabel">$0</span>
+        </div>
         
-        <button class="btn btn-whatsapp" onclick="enviarWhatsApp()">Enviar Pedido a WhatsApp</button>
-        <button class="btn btn-backup" onclick="guardarBackup()">Guardar Backup Local</button>
+        <button class="btn btn-whatsapp" onclick="enviarWhatsApp()">🚀 ENVIAR PEDIDO (WHATSAPP)</button>
+        <button class="btn btn-backup" onclick="guardarBackup()">💾 GUARDAR BACKUP</button>
+        
+        <p style="text-align: center; font-size: 0.75em; color: #999; margin: 5px 0 0 0;">
+            App Desarrollada por <b>Vibras Positivas</b>
+        </p>
     </div>
-    
-    <p style="text-align: center; font-size: 0.8em; color: #888; margin-top: 20px;">
-        App Desarrollada por <b>Vibras Positivas</b>
-    </p>
 </div>
 
 <script>
+    // LISTA COMPLETA EXTRAÍDA DE TUS FOTOS
     const PRODUCTOS = [
-        { id: 1, nombre: "Detergente 3D *125GR", empaque: "PC*96", precio: 1335 },
-        { id: 2, nombre: "Detergente Ultrex *1KL", empaque: "PC*20", precio: 5560 },
-        { id: 3, nombre: "Blanqueador Patojito *1000ML", empaque: "CJ*18", precio: 51465 },
-        { id: 4, nombre: "Suavizante Suavitel *1LT", empaque: "CJ*12", precio: 8350 },
-        { id: 5, nombre: "Jabon Rey *300GR", empaque: "25 UND", precio: 72555 },
-        { id: 6, nombre: "Lavaloza Axion Barra *150GR", empaque: "CJ*72", precio: 2225 },
-        { id: 7, nombre: "Lavaloza Patojito *235GR", empaque: "CJ*36", precio: 2280 }
+        // DETERGENTES
+        { id: 101, n: "Detergente 3D *125GR", e: "PC*96", p: 1335 },
+        { id: 102, n: "Detergente 3D *1KL", e: "PC*12", p: 7565 },
+        { id: 103, n: "Detergente 3D *250GR", e: "PC*24", p: 2580 },
+        { id: 104, n: "Detergente Fab *450GR", e: "PC*30", p: 5345 },
+        { id: 105, n: "Detergente Ultrex *125GR", e: "PC*96", p: 755 },
+        { id: 106, n: "Detergente Ultrex *1KL", e: "PC*20", p: 5560 },
+        { id: 107, n: "Detergente Ultrex Manz *500GR", e: "PC*40", p: 2800 },
+        // BLANQUEADORES / LIMPIAPISOS
+        { id: 201, n: "Blanqueador Patojito *1000ML", e: "CJ*18", p: 51465 },
+        { id: 202, n: "Blanqueador Patojito *1800ML", e: "CJ*12", p: 59545 },
+        { id: 203, n: "Desmanc Ropa Blanca Pat *1000ML", e: "CJ*18", p: 6115 },
+        { id: 204, n: "Desmanc Ropa Color Pat *450ML", e: "CJ*24", p: 2655 },
+        // SUAVIZANTES
+        { id: 301, n: "Suavizante Aromatel *900ML", e: "CJ*12", p: 8900 },
+        { id: 302, n: "Suavizante Suavitel *1LT", e: "CJ*12", p: 8350 },
+        { id: 303, n: "Suavizante Ultrex *900ML DP", e: "CJ*12", p: 4480 },
+        { id: 304, n: "Suavizante Patojito *180ML", e: "CJ*48", p: 1200 },
+        // JABONES / LAVALOZA
+        { id: 401, n: "Jabon Caiman Azul *230GR", e: "CJ*25", p: 42225 },
+        { id: 402, n: "Jabon Rey *300GR", e: "25 UND", p: 72555 },
+        { id: 403, n: "Jabon Top Terra *230GR", e: "CJ*25", p: 65325 },
+        { id: 404, n: "Lavaloza Axion Barra *150GR", e: "CJ*72", p: 2225 },
+        { id: 405, n: "Lavaloza Axion Barra *450GR", e: "CJ*24", p: 6170 },
+        { id: 406, n: "Lavaloza Patojito *235GR", e: "CJ*36", p: 2280 },
+        { id: 407, n: "Lavaloza Liquido 123 *500ML", e: "CJ*12", p: 3195 }
     ];
 
-    // Mostrar Fecha y Hora de Colombia
     function updateDateTime() {
         const ahora = new Date();
-        const opciones = { timeZone: 'America/Bogota', hour12: true, year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const opciones = { timeZone: 'America/Bogota', hour12: true, year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         document.getElementById('currentDateTime').innerText = ahora.toLocaleString('es-CO', opciones);
     }
-    setInterval(updateDateTime, 1000);
+    setInterval(updateDateTime, 60000);
     updateDateTime();
 
-    // Renderizar Productos
     const container = document.getElementById('productosContainer');
-    PRODUCTOS.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'product-item';
-        div.innerHTML = `
-            <div class="product-info">
-                <div><strong>${p.nombre}</strong></div>
-                <div class="product-price">$${p.precio.toLocaleString()} | ${p.empaque}</div>
-            </div>
-            <div>
-                <input type="number" class="qty-input" id="qty-${p.id}" placeholder="Cant" min="0" oninput="calcularTotal()">
-            </div>
-        `;
-        container.appendChild(div);
-    });
+    function renderProducts() {
+        PRODUCTOS.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'product-item';
+            div.setAttribute('data-name', p.n.toLowerCase());
+            div.innerHTML = `
+                <div class="product-info">
+                    <span class="product-name">${p.n}</span>
+                    <span class="product-detail">${p.e} - <span class="product-price">$${p.p.toLocaleString()}</span></span>
+                </div>
+                <input type="number" class="qty-input" id="qty-${p.id}" oninput="calcularTotal()">
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function filterProducts() {
+        const query = document.getElementById('searchBox').value.toLowerCase();
+        const items = document.querySelectorAll('.product-item');
+        items.forEach(item => {
+            const name = item.getAttribute('data-name');
+            if (name.includes(query)) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    }
 
     function calcularTotal() {
         let total = 0;
         PRODUCTOS.forEach(p => {
             const qty = document.getElementById(`qty-${p.id}`).value || 0;
-            total += qty * p.precio;
+            total += qty * p.p;
         });
         document.getElementById('subtotalLabel').innerText = `$${total.toLocaleString()}`;
         document.getElementById('totalLabel').innerText = `$${total.toLocaleString()}`;
@@ -199,68 +252,58 @@
     }
 
     function enviarWhatsApp() {
-        const nombre = document.getElementById('nombreCliente').value;
+        const cliente = document.getElementById('nombreCliente').value;
         const tienda = document.getElementById('nombreTienda').value;
-        const vendedor = document.getElementById('vendedor').value;
         const fecha = document.getElementById('currentDateTime').innerText;
+        const vendedor = document.getElementById('vendedor').value;
 
-        if(!nombre || !tienda) {
-            alert("Por favor completa los datos del cliente");
-            return;
-        }
+        if(!cliente || !tienda) return alert("Faltan datos del cliente");
 
-        let mensaje = `*FACTURA DE PEDIDO - EDOGRA*\n`;
+        let mensaje = `*DISTRIBUIDORA EDOGRA - PEDIDO*\n`;
         mensaje += `--------------------------------\n`;
         mensaje += `*Fecha:* ${fecha}\n`;
-        mensaje += `*Cliente:* ${nombre}\n`;
+        mensaje += `*Cliente:* ${cliente}\n`;
         mensaje += `*Tienda:* ${tienda}\n`;
         mensaje += `*Vendedor:* ${vendedor}\n`;
         mensaje += `--------------------------------\n`;
-        mensaje += `*DETALLE DEL PEDIDO:*\n\n`;
 
         let total = 0;
         PRODUCTOS.forEach(p => {
             const qty = document.getElementById(`qty-${p.id}`).value;
             if (qty > 0) {
-                const sub = qty * p.precio;
-                mensaje += `• ${p.nombre}\n  Cant: ${qty} x $${p.precio.toLocaleString()} = *$${sub.toLocaleString()}*\n`;
+                const sub = qty * p.p;
+                mensaje += `✅ ${p.n}\n   ${qty} x $${p.p.toLocaleString()} = *$${sub.toLocaleString()}*\n`;
                 total += sub;
             }
         });
 
-        if(total === 0) {
-            alert("El pedido está vacío");
-            return;
-        }
+        if(total === 0) return alert("El pedido está vacío");
 
-        mensaje += `\n--------------------------------\n`;
-        mensaje += `*TOTAL A PAGAR: $${total.toLocaleString()}*\n`;
         mensaje += `--------------------------------\n`;
-        mensaje += `¡Muchas gracias por su compra!\n\n`;
+        mensaje += `*TOTAL FACTURA: $${total.toLocaleString()}*\n`;
+        mensaje += `--------------------------------\n`;
+        mensaje += `¡Gracias por confiar en nosotros!\n\n`;
         mensaje += `_App desarrollada por Vibras Positivas_`;
 
-        const phone = "57317849331";
-        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(mensaje)}`;
-        window.open(url, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=57317849331&text=${encodeURIComponent(mensaje)}`, '_blank');
     }
 
     function guardarBackup() {
-        const datos = {
-            cliente: document.getElementById('nombreCliente').value,
-            tienda: document.getElementById('nombreTienda').value,
-            fecha: new Date().toISOString(),
-            pedido: []
+        const backup = {
+            c: document.getElementById('nombreCliente').value,
+            t: document.getElementById('nombreTienda').value,
+            v: document.getElementById('vendedor').value,
+            p: []
         };
-        
         PRODUCTOS.forEach(p => {
-            const qty = document.getElementById(`qty-${p.id}`).value;
-            if(qty > 0) datos.pedido.push({ nombre: p.nombre, cantidad: qty });
+            const q = document.getElementById(`qty-${p.id}`).value;
+            if(q > 0) backup.p.push({id: p.id, q: q});
         });
-
-        localStorage.setItem('ultimo_pedido_edogra', JSON.stringify(datos));
-        alert("Backup guardado exitosamente en este dispositivo.");
+        localStorage.setItem('backup_edogra', JSON.stringify(backup));
+        alert("Backup guardado localmente.");
     }
-</script>
 
+    renderProducts();
+</script>
 </body>
 </html>
