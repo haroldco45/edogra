@@ -3,307 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDOGRA - Toma de Pedidos</title>
+    <title>EDOGRA - Pedidos</title>
     <style>
-        :root {
-            --azul-edogra: #007bff;
-            --azul-oscuro: #0056b3;
-            --blanco: #ffffff;
-            --gris-claro: #f4f7f6;
-            --verde-whatsapp: #25d366;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--gris-claro);
-            margin: 0;
-            padding: 10px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: var(--blanco);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Estilo para tu logo del repositorio */
-        .logo {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .header h1 { color: var(--azul-edogra); margin: 0; text-transform: uppercase; }
-        .datetime { font-size: 0.85em; color: #666; margin-top: 5px; }
-
-        .form-group { margin-bottom: 12px; }
-        label { display: block; font-weight: bold; margin-bottom: 3px; font-size: 0.9em; }
-        
-        input[type="text"], input[type="tel"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-
-        /* Buscador de productos */
-        #searchBox {
-            background-color: #fffde7;
-            border: 2px solid var(--azul-edogra);
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .product-list { 
-            margin-top: 10px; 
-            max-height: 400px; 
-            overflow-y: auto; 
-            border: 1px solid #eee;
-            padding: 5px;
-        }
-
-        .product-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .product-info { flex: 2; padding-right: 10px; }
-        .product-name { font-weight: bold; font-size: 0.95em; display: block; }
-        .product-detail { font-size: 0.85em; color: #555; }
-        .product-price { color: var(--azul-oscuro); font-weight: bold; }
-
-        .qty-input {
-            width: 70px !important;
-            text-align: center;
-            border: 2px solid var(--azul-edogra) !important;
-            font-size: 1.1em;
-        }
-
-        .footer-sticky {
-            position: sticky;
-            bottom: 0;
-            background: white;
-            padding: 15px;
-            border-top: 3px solid var(--azul-edogra);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        }
-
-        .totals {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .total-amount { font-size: 1.4em; color: var(--azul-edogra); font-weight: bold; }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-
-        .btn-whatsapp { background-color: var(--verde-whatsapp); color: white; }
-        .btn-backup { background-color: #6c757d; color: white; }
-
-        .hidden { display: none !important; }
+        :root { --azul: #007bff; --verde: #25d366; --gris: #f8f9fa; }
+        body { font-family: sans-serif; background: var(--gris); margin: 0; padding: 10px; }
+        .card { max-width: 500px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 15px; }
+        .logo { width: 120px; height: auto; }
+        h2 { color: var(--azul); margin: 5px 0; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        #search { background: #fffde7; border: 2px solid var(--azul); font-weight: bold; }
+        .lista { max-height: 350px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-top: 10px; }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .item-info { flex: 1; font-size: 0.9em; }
+        .qty { width: 65px !important; text-align: center; border: 2px solid var(--azul) !important; font-weight: bold; }
+        .footer { position: sticky; bottom: 0; background: white; padding: 15px; border-top: 3px solid var(--azul); margin-top: 10px; }
+        .total-box { display: flex; justify-content: space-between; font-size: 1.3em; font-weight: bold; color: var(--azul); margin-bottom: 10px; }
+        .btn-ws { background: var(--verde); color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="card">
     <div class="header">
-        <img src="logo.png" alt="Logo EDOGRA" class="logo">
-        <h1>EDOGRA</h1>
-        <div class="datetime" id="currentDateTime"></div>
+        <img src="edogra.png" alt="EDOGRA" class="logo">
+        <h2>EDOGRA DISTRIBUCIONES</h2>
+        <div id="fecha" style="font-size: 0.8em; color: #666;"></div>
     </div>
 
-    <div class="form-group">
-        <label>Cliente / Tienda</label>
-        <input type="text" id="nombreCliente" placeholder="Nombre Cliente">
-        <input type="text" id="nombreTienda" placeholder="Nombre de la Tienda" style="margin-top:5px">
-    </div>
-    <div class="form-group">
-        <input type="text" id="direccion" placeholder="Dirección y Ciudad (Caucasia)">
-    </div>
-    <div class="form-group">
-        <input type="text" id="vendedor" placeholder="Vendedor que atiende">
-    </div>
+    <input type="text" id="cliente" placeholder="Nombre del Cliente">
+    <input type="text" id="tienda" placeholder="Nombre de la Tienda">
+    <input type="text" id="dir" placeholder="Dirección (Calle, Barrio, Ciudad)">
+    <input type="text" id="vend" placeholder="Vendedor que atiende">
 
     <hr>
+    <input type="text" id="search" placeholder="🔍 BUSCAR PRODUCTO..." onkeyup="filtrar()">
 
-    <label>🔍 Buscar Producto:</label>
-    <input type="text" id="searchBox" placeholder="Escribe el nombre del producto..." onkeyup="filterProducts()">
+    <div class="lista" id="lista"></div>
 
-    <div class="product-list" id="productosContainer">
+    <div class="footer">
+        <div class="total-box">
+            <span>TOTAL:</span>
+            <span id="totalDisplay">$0</span>
         </div>
-
-    <div class="footer-sticky">
-        <div class="totals">
-            <span>SUBTOTAL: <span id="subtotalLabel">$0</span></span>
-            <span class="total-amount" id="totalLabel">$0</span>
-        </div>
-        
-        <button class="btn btn-whatsapp" onclick="enviarWhatsApp()">🚀 ENVIAR PEDIDO (WHATSAPP)</button>
-        <button class="btn btn-backup" onclick="guardarBackup()">💾 GUARDAR BACKUP</button>
-        
-        <p style="text-align: center; font-size: 0.75em; color: #999; margin: 5px 0 0 0;">
-            App Desarrollada por <b>Vibras Positivas</b>
-        </p>
+        <button class="btn-ws" onclick="enviar()">🚀 ENVIAR A WHATSAPP</button>
+        <p style="text-align: center; font-size: 0.7em; color: #999; margin-top: 10px;">App desarrollada por Vibras Positivas</p>
     </div>
 </div>
 
 <script>
-    // LISTA COMPLETA EXTRAÍDA DE TUS FOTOS
-    const PRODUCTOS = [
-        // DETERGENTES
-        { id: 101, n: "Detergente 3D *125GR", e: "PC*96", p: 1335 },
-        { id: 102, n: "Detergente 3D *1KL", e: "PC*12", p: 7565 },
-        { id: 103, n: "Detergente 3D *250GR", e: "PC*24", p: 2580 },
-        { id: 104, n: "Detergente Fab *450GR", e: "PC*30", p: 5345 },
-        { id: 105, n: "Detergente Ultrex *125GR", e: "PC*96", p: 755 },
-        { id: 106, n: "Detergente Ultrex *1KL", e: "PC*20", p: 5560 },
-        { id: 107, n: "Detergente Ultrex Manz *500GR", e: "PC*40", p: 2800 },
-        // BLANQUEADORES / LIMPIAPISOS
-        { id: 201, n: "Blanqueador Patojito *1000ML", e: "CJ*18", p: 51465 },
-        { id: 202, n: "Blanqueador Patojito *1800ML", e: "CJ*12", p: 59545 },
-        { id: 203, n: "Desmanc Ropa Blanca Pat *1000ML", e: "CJ*18", p: 6115 },
-        { id: 204, n: "Desmanc Ropa Color Pat *450ML", e: "CJ*24", p: 2655 },
-        // SUAVIZANTES
-        { id: 301, n: "Suavizante Aromatel *900ML", e: "CJ*12", p: 8900 },
-        { id: 302, n: "Suavizante Suavitel *1LT", e: "CJ*12", p: 8350 },
-        { id: 303, n: "Suavizante Ultrex *900ML DP", e: "CJ*12", p: 4480 },
-        { id: 304, n: "Suavizante Patojito *180ML", e: "CJ*48", p: 1200 },
-        // JABONES / LAVALOZA
-        { id: 401, n: "Jabon Caiman Azul *230GR", e: "CJ*25", p: 42225 },
-        { id: 402, n: "Jabon Rey *300GR", e: "25 UND", p: 72555 },
-        { id: 403, n: "Jabon Top Terra *230GR", e: "CJ*25", p: 65325 },
-        { id: 404, n: "Lavaloza Axion Barra *150GR", e: "CJ*72", p: 2225 },
-        { id: 405, n: "Lavaloza Axion Barra *450GR", e: "CJ*24", p: 6170 },
-        { id: 406, n: "Lavaloza Patojito *235GR", e: "CJ*36", p: 2280 },
-        { id: 407, n: "Lavaloza Liquido 123 *500ML", e: "CJ*12", p: 3195 }
+    // LISTA COMPLETA DE TUS FOTOS
+    const DB = [
+        { id: 1, n: "Detergente 3D *125GR PC*96", p: 1335 },
+        { id: 2, n: "Detergente 3D *1KL PC*12", p: 7565 },
+        { id: 3, n: "Detergente 3D *250GR PC*24", p: 2580 },
+        { id: 4, n: "Detergente 3D *2KL PC*6", p: 15115 },
+        { id: 5, n: "Detergente 3D *3KL PC*4", p: 22020 },
+        { id: 6, n: "Detergente Fab *450GR PC*30", p: 5345 },
+        { id: 7, n: "Detergente Ultrex *125GR PC*96", p: 755 },
+        { id: 8, n: "Detergente Ultrex *1KL PC*20", p: 5560 },
+        { id: 9, n: "Detergente Ultrex Manz *500GR PC*40", p: 2800 },
+        { id: 10, n: "Blanqueador Patojito *1000ML CJ*18", p: 51465 },
+        { id: 11, n: "Blanqueador Patojito *1800ML CJ*12", p: 59545 },
+        { id: 12, n: "Desmanc Ropa Blanca Pat *1000ML CJ*18", p: 6115 },
+        { id: 13, n: "Desmanc Ropa Color Pat *450ML CJ*24", p: 2655 },
+        { id: 14, n: "Suavizante Suavitel *1LT CJ*12", p: 8350 },
+        { id: 15, n: "Suavizante Aromatel *900ML CJ*12", p: 8900 },
+        { id: 16, n: "Jabon Rey *300GR CJ*25", p: 72555 },
+        { id: 17, n: "Jabon Caiman Azul *230GR CJ*25", p: 42225 },
+        { id: 18, n: "Lavaloza Axion Barra *150GR CJ*72", p: 2225 },
+        { id: 19, n: "Lavaloza Axion Barra *450GR CJ*24", p: 6170 },
+        { id: 20, n: "Lavaloza Patojito *450GR CJ*36", p: 3695 }
     ];
 
-    function updateDateTime() {
+    function mostrarFecha() {
         const ahora = new Date();
-        const opciones = { timeZone: 'America/Bogota', hour12: true, year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        document.getElementById('currentDateTime').innerText = ahora.toLocaleString('es-CO', opciones);
+        document.getElementById('fecha').innerText = ahora.toLocaleString('es-CO', { timeZone: 'America/Bogota' });
     }
-    setInterval(updateDateTime, 60000);
-    updateDateTime();
+    mostrarFecha();
 
-    const container = document.getElementById('productosContainer');
-    function renderProducts() {
-        PRODUCTOS.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'product-item';
-            div.setAttribute('data-name', p.n.toLowerCase());
-            div.innerHTML = `
-                <div class="product-info">
-                    <span class="product-name">${p.n}</span>
-                    <span class="product-detail">${p.e} - <span class="product-price">$${p.p.toLocaleString()}</span></span>
-                </div>
-                <input type="number" class="qty-input" id="qty-${p.id}" oninput="calcularTotal()">
-            `;
-            container.appendChild(div);
+    const listaDiv = document.getElementById('lista');
+    DB.forEach(p => {
+        const d = document.createElement('div');
+        d.className = 'item';
+        d.setAttribute('data-n', p.n.toLowerCase());
+        d.innerHTML = `
+            <div class="item-info"><b>${p.n}</b><br>$${p.p.toLocaleString()}</div>
+            <input type="number" class="qty" id="p-${p.id}" oninput="calc()" placeholder="0">
+        `;
+        listaDiv.appendChild(d);
+    });
+
+    function filtrar() {
+        const q = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.item').forEach(i => {
+            i.style.display = i.getAttribute('data-n').includes(q) ? 'flex' : 'none';
         });
     }
 
-    function filterProducts() {
-        const query = document.getElementById('searchBox').value.toLowerCase();
-        const items = document.querySelectorAll('.product-item');
-        items.forEach(item => {
-            const name = item.getAttribute('data-name');
-            if (name.includes(query)) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
-        });
-    }
-
-    function calcularTotal() {
+    function calc() {
         let total = 0;
-        PRODUCTOS.forEach(p => {
-            const qty = document.getElementById(`qty-${p.id}`).value || 0;
-            total += qty * p.p;
+        DB.forEach(p => {
+            const q = document.getElementById(`p-${p.id}`).value || 0;
+            total += q * p.p;
         });
-        document.getElementById('subtotalLabel').innerText = `$${total.toLocaleString()}`;
-        document.getElementById('totalLabel').innerText = `$${total.toLocaleString()}`;
-        return total;
+        document.getElementById('totalDisplay').innerText = `$${total.toLocaleString()}`;
     }
 
-    function enviarWhatsApp() {
-        const cliente = document.getElementById('nombreCliente').value;
-        const tienda = document.getElementById('nombreTienda').value;
-        const fecha = document.getElementById('currentDateTime').innerText;
-        const vendedor = document.getElementById('vendedor').value;
+    function enviar() {
+        const c = document.getElementById('cliente').value;
+        const t = document.getElementById('tienda').value;
+        const d = document.getElementById('dir').value;
+        const v = document.getElementById('vend').value;
+        const f = document.getElementById('fecha').innerText;
 
-        if(!cliente || !tienda) return alert("Faltan datos del cliente");
+        if(!c || !t || !d) return alert("Completa Cliente, Tienda y Dirección");
 
-        let mensaje = `*DISTRIBUIDORA EDOGRA - PEDIDO*\n`;
-        mensaje += `--------------------------------\n`;
-        mensaje += `*Fecha:* ${fecha}\n`;
-        mensaje += `*Cliente:* ${cliente}\n`;
-        mensaje += `*Tienda:* ${tienda}\n`;
-        mensaje += `*Vendedor:* ${vendedor}\n`;
-        mensaje += `--------------------------------\n`;
+        let msg = `*FACTURA DE PEDIDO - EDOGRA*\n`;
+        msg += `--------------------------------\n`;
+        msg += `*Fecha:* ${f}\n`;
+        msg += `*Cliente:* ${c}\n`;
+        msg += `*Tienda:* ${t}\n`;
+        msg += `*Dirección:* ${d}\n`;
+        msg += `*Vendedor:* ${v}\n`;
+        msg += `--------------------------------\n\n`;
 
         let total = 0;
-        PRODUCTOS.forEach(p => {
-            const qty = document.getElementById(`qty-${p.id}`).value;
-            if (qty > 0) {
-                const sub = qty * p.p;
-                mensaje += `✅ ${p.n}\n   ${qty} x $${p.p.toLocaleString()} = *$${sub.toLocaleString()}*\n`;
+        DB.forEach(p => {
+            const q = document.getElementById(`p-${p.id}`).value;
+            if(q > 0) {
+                const sub = q * p.p;
+                msg += `🔹 ${p.n}\n   Cant: ${q} x $${p.p.toLocaleString()} = *$${sub.toLocaleString()}*\n`;
                 total += sub;
             }
         });
 
-        if(total === 0) return alert("El pedido está vacío");
+        if(total === 0) return alert("Pedido vacío");
 
-        mensaje += `--------------------------------\n`;
-        mensaje += `*TOTAL FACTURA: $${total.toLocaleString()}*\n`;
-        mensaje += `--------------------------------\n`;
-        mensaje += `¡Gracias por confiar en nosotros!\n\n`;
-        mensaje += `_App desarrollada por Vibras Positivas_`;
+        msg += `\n--------------------------------\n`;
+        msg += `*TOTAL A PAGAR: $${total.toLocaleString()}*\n`;
+        msg += `--------------------------------\n`;
+        msg += `¡Gracias por su compra!\n\n`;
+        msg += `_App desarrollada por Vibras Positivas_`;
 
-        window.open(`https://api.whatsapp.com/send?phone=573178449331&text=${encodeURIComponent(mensaje)}`, '_blank');
+        window.open(`https://wa.me/57317849331?text=${encodeURIComponent(msg)}`);
     }
-
-    function guardarBackup() {
-        const backup = {
-            c: document.getElementById('nombreCliente').value,
-            t: document.getElementById('nombreTienda').value,
-            v: document.getElementById('vendedor').value,
-            p: []
-        };
-        PRODUCTOS.forEach(p => {
-            const q = document.getElementById(`qty-${p.id}`).value;
-            if(q > 0) backup.p.push({id: p.id, q: q});
-        });
-        localStorage.setItem('backup_edogra', JSON.stringify(backup));
-        alert("Backup guardado localmente.");
-    }
-
-    renderProducts();
 </script>
 </body>
 </html>
