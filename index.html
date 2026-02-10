@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDOGRA - Sistema de Pedidos</title>
+    <title>EDOGRA - Pedidos</title>
     <style>
         :root { --azul: #007bff; --verde: #25d366; --gris: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; padding: 10px; }
@@ -20,7 +20,8 @@
         .qty { width: 75px !important; text-align: center; border: 2px solid var(--azul) !important; font-weight: bold; background: #e3f2fd; }
         .footer { position: sticky; bottom: 0; background: white; padding: 15px; border-top: 3px solid var(--azul); margin-top: 15px; }
         .total-box { display: flex; justify-content: space-between; font-size: 1.4em; font-weight: bold; color: var(--azul); margin-bottom: 12px; }
-        .btn-ws { background: var(--verde); color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1em; }
+        .btn-ws { background: var(--verde); color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1em; margin-bottom: 8px; }
+        .btn-backup { background: #6c757d; color: white; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -47,6 +48,7 @@
             <span id="totalDisplay">$0</span>
         </div>
         <button class="btn-ws" onclick="enviar()">🚀 ENVIAR A WHATSAPP</button>
+        <button class="btn-backup" onclick="guardarBackup()">💾 GUARDAR BACKUP LOCAL</button>
         <p style="text-align: center; font-size: 0.75em; color: #888; margin-top: 10px;">
             App Desarrollada por <b>Vibras Positivas</b>
         </p>
@@ -59,18 +61,22 @@
         { id: 2, n: "Detergente 3D *1KL PC*12", p: 7565 },
         { id: 3, n: "Detergente 3D *250GR PC*24", p: 2580 },
         { id: 4, n: "Detergente 3D *2KL PC*6", p: 15115 },
-        { id: 5, n: "Detergente Fab *450GR PC*30", p: 5345 },
-        { id: 6, n: "Detergente Ultrex *125GR PC*96", p: 755 },
-        { id: 7, n: "Detergente Ultrex *1KL PC*20", p: 5560 },
-        { id: 8, n: "Blanqueador Patojito *1000ML CJ*18", p: 51465 },
-        { id: 9, n: "Blanqueador Patojito *1800ML CJ*12", p: 59545 },
-        { id: 10, n: "Suavizante Aromatel *900ML CJ*12", p: 8900 },
-        { id: 11, n: "Suavizante Suavitel *1LT CJ*12", p: 8350 },
-        { id: 12, n: "Jabon Rey *300GR CJ*25", p: 72555 },
-        { id: 13, n: "Jabon Caiman Azul *230GR CJ*25", p: 42225 },
-        { id: 14, n: "Lavaloza Axion Barra *150GR CJ*72", p: 2225 },
-        { id: 15, n: "Lavaloza Patojito *450GR CJ*36", p: 3695 }
-        // ... (puedes seguir agregando el resto de la lista extraída)
+        { id: 5, n: "Detergente 3D *3KL PC*4", p: 22020 },
+        { id: 6, n: "Detergente Fab *450GR PC*30", p: 5345 },
+        { id: 7, n: "Detergente Fab *4KL PC*4", p: 42770 },
+        { id: 8, n: "Detergente Ultrex *125GR PC*96", p: 755 },
+        { id: 9, n: "Detergente Ultrex *1KL PC*20", p: 5560 },
+        { id: 10, n: "Detergente Ultrex Manz *500GR PC*40", p: 2800 },
+        { id: 11, n: "Blanqueador Patojito *1000ML CJ*18", p: 51465 },
+        { id: 12, n: "Blanqueador Patojito *1800ML CJ*12", p: 59545 },
+        { id: 13, n: "Suavizante Aromatel *900ML CJ*12", p: 8900 },
+        { id: 14, n: "Suavizante Suavitel *1LT CJ*12", p: 8350 },
+        { id: 15, n: "Jabon Rey *300GR CJ*25", p: 72555 },
+        { id: 16, n: "Jabon Caiman Azul *230GR CJ*25", p: 42225 },
+        { id: 17, n: "Lavaloza Axion Barra *150GR CJ*72", p: 2225 },
+        { id: 18, n: "Lavaloza Axion Barra *450GR CJ*24", p: 6170 },
+        { id: 19, n: "Lavaloza Patojito *450GR CJ*36", p: 3695 },
+        { id: 20, n: "Lavaloza Liquido 123 *500ML CJ*12", p: 3195 }
     ];
 
     function updateDate() {
@@ -122,11 +128,41 @@
             }
         });
 
+        if(subtotal === 0) return alert("Pedido vacío");
+
         msg += `\n*TOTAL: $${subtotal.toLocaleString()}*\n\n_App por Vibras Positivas_`;
-        
-        // NÚMERO CORREGIDO: 3178449331
         window.open(`https://wa.me/573178449331?text=${encodeURIComponent(msg)}`);
     }
+
+    function guardarBackup() {
+        const datos = {
+            c: document.getElementById('cliente').value,
+            t: document.getElementById('tienda').value,
+            d: document.getElementById('dir').value,
+            p: []
+        };
+        PRODUCTOS.forEach(p => {
+            const q = document.getElementById(`qty-${p.id}`).value;
+            if(q > 0) datos.p.push({id: p.id, q: q});
+        });
+        localStorage.setItem('backup_edogra', JSON.stringify(datos));
+        alert("¡Backup guardado! Si recargas la página, tus datos seguirán aquí.");
+    }
+
+    // Cargar backup si existe
+    window.onload = () => {
+        const saved = JSON.parse(localStorage.getItem('backup_edogra'));
+        if(saved) {
+            document.getElementById('cliente').value = saved.c || '';
+            document.getElementById('tienda').value = saved.t || '';
+            document.getElementById('dir').value = saved.d || '';
+            saved.p.forEach(item => {
+                const el = document.getElementById(`qty-${item.id}`);
+                if(el) el.value = item.q;
+            });
+            calc();
+        }
+    };
 </script>
 </body>
 </html>
