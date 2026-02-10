@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDOGRA - Pedidos</title>
+    <title>EDOGRA - Pedidos Completos</title>
     <style>
         :root { --azul: #007bff; --verde: #25d366; --gris: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--gris); margin: 0; padding: 10px; }
@@ -13,7 +13,7 @@
         h2 { color: var(--azul); margin: 5px 0; font-size: 1.4em; }
         input { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
         #search { background: #fffde7; border: 2px solid var(--azul); font-weight: bold; position: sticky; top: 0; z-index: 10; }
-        .lista { max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-top: 10px; border-radius: 8px; }
+        .lista { max-height: 450px; overflow-y: auto; border: 1px solid #eee; padding: 5px; margin-top: 10px; border-radius: 8px; }
         .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; }
         .item-info { flex: 1; font-size: 0.85em; color: #333; }
         .item-info b { display: block; font-size: 1.05em; color: #000; }
@@ -57,26 +57,92 @@
 
 <script>
     const PRODUCTOS = [
-        { id: 1, n: "Detergente 3D *125GR PC*96", p: 1335 },
-        { id: 2, n: "Detergente 3D *1KL PC*12", p: 7565 },
-        { id: 3, n: "Detergente 3D *250GR PC*24", p: 2580 },
-        { id: 4, n: "Detergente 3D *2KL PC*6", p: 15115 },
-        { id: 5, n: "Detergente 3D *3KL PC*4", p: 22020 },
-        { id: 6, n: "Detergente Fab *450GR PC*30", p: 5345 },
-        { id: 7, n: "Detergente Fab *4KL PC*4", p: 42770 },
-        { id: 8, n: "Detergente Ultrex *125GR PC*96", p: 755 },
-        { id: 9, n: "Detergente Ultrex *1KL PC*20", p: 5560 },
-        { id: 10, n: "Detergente Ultrex Manz *500GR PC*40", p: 2800 },
-        { id: 11, n: "Blanqueador Patojito *1000ML CJ*18", p: 51465 },
-        { id: 12, n: "Blanqueador Patojito *1800ML CJ*12", p: 59545 },
-        { id: 13, n: "Suavizante Aromatel *900ML CJ*12", p: 8900 },
-        { id: 14, n: "Suavizante Suavitel *1LT CJ*12", p: 8350 },
-        { id: 15, n: "Jabon Rey *300GR CJ*25", p: 72555 },
-        { id: 16, n: "Jabon Caiman Azul *230GR CJ*25", p: 42225 },
-        { id: 17, n: "Lavaloza Axion Barra *150GR CJ*72", p: 2225 },
-        { id: 18, n: "Lavaloza Axion Barra *450GR CJ*24", p: 6170 },
-        { id: 19, n: "Lavaloza Patojito *450GR CJ*36", p: 3695 },
-        { id: 20, n: "Lavaloza Liquido 123 *500ML CJ*12", p: 3195 }
+        // GRUPO 0401 - DETERGENTES
+        { id: 1, n: "DETERGENTE 3D *125GR PC*96", p: 1335 },
+        { id: 2, n: "DETERGENTE 3D *1KL PC*12", p: 7565 },
+        { id: 3, n: "DETERGENTE 3D *250GR PC*24", p: 2580 },
+        { id: 4, n: "DETERGENTE 3D *2KL PC*6", p: 15115 },
+        { id: 5, n: "DETERGENTE 3D *3KL PC*4", p: 22020 },
+        { id: 6, n: "DETERGENTE 3D *500GR PC*22", p: 4005 },
+        { id: 7, n: "DETERGENTE BARRA DERSA AS*250GR CJ*2", p: 65075 },
+        { id: 8, n: "DETERGENTE DERSA*125GR PC*96", p: 2 },
+        { id: 9, n: "DETERGENTE FAB*100GR PC*112", p: 1425 },
+        { id: 10, n: "DETERGENTE FAB*225GR PC*54", p: 2910 },
+        { id: 11, n: "DETERGENTE FAB*450GR PC*30", p: 5345 },
+        { id: 12, n: "DETERGENTE FAB*4KL PC*4", p: 42770 },
+        { id: 13, n: "DETERGENTE FAB*5KL PC*3", p: 44160 },
+        { id: 14, n: "DETERGENTE FAB*700GR PC*18", p: 8010 },
+        { id: 15, n: "DETERGENTE FREE BULTO*20KL", p: 59445 },
+        { id: 16, n: "DETERGENTE LIQUIDO ULTREX DP*400ML", p: 2880 },
+        { id: 17, n: "DETERGENTE LIQUIDO ULTREX*1LT CJ*12", p: 6285 },
+        { id: 18, n: "DETERGENTE LIQUIDO ULTREX*2LT CJ*6", p: 11995 },
+        { id: 19, n: "DETERGENTE LIQUIDO ULTREX*4LT CJ*4", p: 23600 },
+        { id: 20, n: "DETERGENTE ULTREX *125GR PC*96", p: 755 },
+        { id: 21, n: "DETERGENTE ULTREX *1KL PC*20", p: 5560 },
+        { id: 22, n: "DETERGENTE ULTREX *250GR PC*48", p: 1740 },
+        { id: 23, n: "DETERGENTE ULTREX *2KL PC*8", p: 11920 },
+        { id: 24, n: "DETERGENTE ULTREX *3KL PC*6", p: 15460 },
+        { id: 25, n: "DETERGENTE ULTREX *4KL PC*5", p: 20640 },
+        { id: 26, n: "DETERGENTE ULTREX *500GR PC*40", p: 2800 },
+        { id: 27, n: "DETERGENTE ULTREX *5KL PC*4", p: 25600 },
+        { id: 28, n: "DETERGENTE ULTREX MANZ*125GR PC*96", p: 755 },
+        { id: 29, n: "DETERGENTE ULTREX MANZ*3 KL PC*6", p: 15080 },
+        { id: 30, n: "DETERGENTE ULTREX MANZ*500GR PC*40", p: 2800 },
+        { id: 31, n: "DETERGENTE ULTREX MANZ*900GR PC*20", p: 4705 },
+        // GRUPO 0402 - LIMPIAPISOS-BLANQUEADORES
+        { id: 32, n: "BLANQUEADOR NEW CLEANY*2000 CJ*6", p: 16895 },
+        { id: 33, n: "BLANQUEADOR NEW CLEANY*3800 CJ*4", p: 23980 },
+        { id: 34, n: "BLANQUEADOR NEW CLEANY*500 CJ*24", p: 23980 },
+        { id: 35, n: "BLANQUEADOR NOW CLEANY*1000 CJ*12", p: 24315 },
+        { id: 36, n: "BLANQUEADOR PATOJITO*1000ML CJ*18", p: 51465 },
+        { id: 37, n: "BLANQUEADOR PATOJITO*1800ML CJ*12", p: 59545 },
+        { id: 38, n: "BLANQUEADOR PATOJITO*3700ML CJ*6", p: 58345 },
+        { id: 39, n: "BLANQUEADOR PATOJITO*450ML CJ*24", p: 25090 },
+        { id: 40, n: "DESMANC ROPA BLANCA PAT*1000ML CJ*18", p: 6115 },
+        { id: 41, n: "DESMANC ROPA COLOR PAT*1000ML CJ*18", p: 5445 },
+        { id: 42, n: "DESMANC ROPA COLOR PAT*450ML CJ*24", p: 2655 },
+        // GRUPO 0403 - SUAVIZANTES
+        { id: 43, n: "QUITA MANCHAS ULTREX*150ML CJ*12", p: 1360 },
+        { id: 44, n: "QUITA MANCHAS ULTREX*450ML CJ*12", p: 3190 },
+        { id: 45, n: "SUAVIZ AROMATEL*180ML CJ*36", p: 1605 },
+        { id: 46, n: "SUAVIZ AROMATEL*2500ML CJ*6", p: 19140 },
+        { id: 47, n: "SUAVIZ AROMATEL*400ML CJ*24", p: 2575 },
+        { id: 48, n: "SUAVIZ AROMATEL*900ML CJ*12", p: 8900 },
+        { id: 49, n: "SUAVIZ PATOJITO DP*180ML CJ*48", p: 1200 },
+        { id: 50, n: "SUAVIZ PATOJITO*900ML CJ*12", p: 5820 },
+        { id: 51, n: "SUAVIZ SOFLIN*900 DP CJ*16", p: 2875 },
+        { id: 52, n: "SUAVIZ SUAVITEL DP*180ML CJ*56", p: 1630 },
+        { id: 53, n: "SUAVIZ SUAVITEL*1LT CJ*12", p: 8350 },
+        { id: 54, n: "SUAVIZ SUAVITEL*2.8LT CJ*4", p: 18740 },
+        { id: 55, n: "SUAVIZ SUAVITEL*4.8LT CJ*3", p: 40175 },
+        { id: 56, n: "SUAVIZ SUAVITEL*430ML CJ*24", p: 3010 },
+        { id: 57, n: "SUAVIZ ULTREX*1.8 LT DP CJ*6", p: 7995 },
+        { id: 58, n: "SUAVIZ ULTREX*205ML CJ*12", p: 1280 },
+        { id: 59, n: "SUAVIZ ULTREX*425ML DP CJ*12", p: 2240 },
+        { id: 60, n: "SUAVIZ ULTREX*4LT CJ*4", p: 16790 },
+        { id: 61, n: "SUAVIZ ULTREX*900ML DP CJ*12", p: 4480 },
+        // GRUPO 0404 - JABONES EN BARRA
+        { id: 62, n: "JABON CAIMAN AZUL ENV *230GR CJ*25", p: 42225 },
+        { id: 63, n: "JABON CAIMAN BLANCO ENV *230GR CJ*25", p: 46670 },
+        { id: 64, n: "JABON CAIMAN EN CUERO*150GR CJ*25", p: 25555 },
+        { id: 65, n: "JABON CAIMAN EN CUERO*430GR CJ*16", p: 47555 },
+        { id: 66, n: "JABON DERSA*220GR LIMON-LAVAND CJ*24", p: 44270 },
+        { id: 67, n: "JABON REY *300GR CJ*25", p: 72555 },
+        { id: 68, n: "JABON TOP COMBI *230GR CJ*25", p: 64945 },
+        { id: 69, n: "JABON TOP TERRA *230GR CJ*25", p: 65325 },
+        { id: 70, n: "LAVALOZA AXION BARRA*100GR CJ*84", p: 1180 },
+        { id: 71, n: "LAVALOZA AXION BARRA*300GR CJ*54", p: 2255 },
+        // LISTA 01 - LAVALOZAS ADICIONALES
+        { id: 72, n: "LAVALOZA AXION*150GR CJ*72", p: 2225 },
+        { id: 73, n: "LAVALOZA AXION*235GR CJ*48", p: 3105 },
+        { id: 74, n: "LAVALOZA AXION*450GR CJ*24", p: 6170 },
+        { id: 75, n: "LAVALOZA AXION*850GR CJ*12", p: 11575 },
+        { id: 76, n: "LAVALOZA LIQUIDO 123 *500ML CJ*12", p: 3195 },
+        { id: 77, n: "LAVALOZA LIQUIDO 123*180ML CJ*12", p: 1680 },
+        { id: 78, n: "LAVALOZA LIQUIDO PATOJITO DP*180ML", p: 1880 },
+        { id: 79, n: "LAVALOZA PATOJITO*235GR CJ*36", p: 2280 },
+        { id: 80, n: "LAVALOZA PATOJITO*450GR CJ*36", p: 3695 },
+        { id: 81, n: "LAVALOZA PATOJITO*850GR CJ*18", p: 7485 }
     ];
 
     function updateDate() {
@@ -139,6 +205,7 @@
             c: document.getElementById('cliente').value,
             t: document.getElementById('tienda').value,
             d: document.getElementById('dir').value,
+            v: document.getElementById('vend').value,
             p: []
         };
         PRODUCTOS.forEach(p => {
@@ -146,16 +213,16 @@
             if(q > 0) datos.p.push({id: p.id, q: q});
         });
         localStorage.setItem('backup_edogra', JSON.stringify(datos));
-        alert("¡Backup guardado! Si recargas la página, tus datos seguirán aquí.");
+        alert("¡Backup guardado con éxito!");
     }
 
-    // Cargar backup si existe
     window.onload = () => {
         const saved = JSON.parse(localStorage.getItem('backup_edogra'));
         if(saved) {
             document.getElementById('cliente').value = saved.c || '';
             document.getElementById('tienda').value = saved.t || '';
             document.getElementById('dir').value = saved.d || '';
+            document.getElementById('vend').value = saved.v || '';
             saved.p.forEach(item => {
                 const el = document.getElementById(`qty-${item.id}`);
                 if(el) el.value = item.q;
